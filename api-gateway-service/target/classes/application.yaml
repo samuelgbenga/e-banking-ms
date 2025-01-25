@@ -11,10 +11,7 @@ spring:
         - id: customer-service
           uri: lb://CUSTOMER-SERVICE
           predicates:
-            - Path=/customers/**
-          filters:
-            - AddRequestHeader=Authorization, "#{request.headers['Authorization'] != null ? request.headers['Authorization'] /:/ 'null'}"
-            - AddRequestHeader=X-From-Gateway, true
+            - Path=/customers/**, /customers, /customer-service/v3/api-docs
       globalcors:
         corsConfigurations:
           '[/**]':
@@ -31,6 +28,22 @@ spring:
               - PUT
               - DELETE
               - PATCH
+
+springdoc:
+  enable-native-support: true
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - url: /v3/api-docs
+        name: API Gateway Service
+        primaryName: API Gateway Service
+      - url: /customer-service/v3/api-docs
+        name: Customer Service
+        primaryName: Customer Service
 
 eureka:
   instance:
