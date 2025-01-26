@@ -39,17 +39,18 @@
   </dependencyManagement>
   <dependencies>
     <!-- tag::deps-springboot-docker-compose[] -->
-<!--    <dependency>-->
-<!--      <groupId>org.springframework.boot</groupId>-->
-<!--      <artifactId>spring-boot-docker-compose</artifactId>-->
-<!--      <scope>runtime</scope>-->
-<!--      <optional>true</optional>-->
-<!--    </dependency>-->
+    <!--    <dependency>-->
+    <!--      <groupId>org.springframework.boot</groupId>-->
+    <!--      <artifactId>spring-boot-docker-compose</artifactId>-->
+    <!--      <scope>runtime</scope>-->
+    <!--      <optional>true</optional>-->
+    <!--    </dependency>-->
     <!-- end::deps-springboot-docker-compose[] -->
   </dependencies>
   <modules>
     <module>discovery-service</module>
     <module>api-gateway-service</module>
     <module>customer-service</module>
+    <module>authentication-service</module>
   </modules>
 </project>
