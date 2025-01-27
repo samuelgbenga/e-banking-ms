@@ -16,6 +16,11 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
 
+    private final JWTAuthorizationFilter jwtAuthorizationFilter;
+
+    public SecurityConfiguration(final JWTAuthorizationFilter jwtAuthorizationFilter) {
+        this.jwtAuthorizationFilter = jwtAuthorizationFilter;
+    }
 
 
     @Bean
@@ -24,7 +29,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/intern/**", "/actuator/**").permitAll()
                         .anyRequest().permitAll())
-                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS));
+                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+                .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

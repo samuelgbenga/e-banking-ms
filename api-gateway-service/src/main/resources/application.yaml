@@ -12,6 +12,10 @@ spring:
           uri: lb://CUSTOMER-SERVICE
           predicates:
             - Path=/customers/**, /customers, /customer-service/v3/api-docs
+        - id: authentication-service
+          uri: lb://AUTHENTICATION-SERVICE
+          predicates:
+            - Path=/authentication, /roles, /roles/**, /passwords, /passwords/**, /users, /users/**, /authentication-service/v3/api-docs
       globalcors:
         corsConfigurations:
           '[/**]':
@@ -44,6 +48,9 @@ springdoc:
       - url: /customer-service/v3/api-docs
         name: Customer Service
         primaryName: Customer Service
+      - url: /authentication-service/v3/api-docs
+        name: Authentication Service
+        primaryName: Authentication Service
 
 eureka:
   instance:

@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ApplicationProperties {
 
-//    @Value("${application.security.jwt.secret}")
-//    private String jwtSecret;
-//
-//    @Value("${application.security.jwt.expiration}")
-//    private Long jwtExpiration;
+    @Value("${application.security.jwt.secret}")
+    private String jwtSecret;
+
+    @Value("${application.security.jwt.expiration}")
+    private Long jwtExpiration;
 }

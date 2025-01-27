@@ -29,6 +29,7 @@ public class GatewayServiceApp
         return builder
                 .routes()
                 .route(r -> r.path("/customer-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://CUSTOMER-SERVICE"))
+                .route(r -> r.path("/authentication-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://AUTHENTICATION-SERVICE"))
                 .build();
     }
 
