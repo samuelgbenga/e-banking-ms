@@ -63,7 +63,7 @@ public class AuthenticationServiceApplication {
                     superAdmin.setPlaceOfBirth("Administrator's Birthday");
                     superAdmin.setGender(Gender.MALE);
                     superAdmin.setUsername("ADMINISTRATOR");
-                    superAdmin.setEmail("administrator@mounanga.com");
+                    superAdmin.setEmail("samuelgbenga972@gmail.com");
                     superAdmin.setPasswordNeedToBeModified(Boolean.TRUE);
                     //String defaultPassword = UUID.randomUUID().toString();
                     String defaultPassword = "samuel";

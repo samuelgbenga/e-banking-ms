@@ -30,6 +30,7 @@ public class GatewayServiceApp
                 .routes()
                 .route(r -> r.path("/customer-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://CUSTOMER-SERVICE"))
                 .route(r -> r.path("/authentication-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://AUTHENTICATION-SERVICE"))
+                .route(r -> r.path("/notification-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://NOTIFICATION-SERVICE"))
                 .build();
     }
 

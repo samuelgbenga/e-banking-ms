@@ -16,6 +16,10 @@ spring:
           uri: lb://AUTHENTICATION-SERVICE
           predicates:
             - Path=/authentication, /authentication/**, /roles, /roles/**, /passwords, /passwords/**, /users, /users/**, /authentication-service/v3/api-docs
+        - id: notification-service
+          uri: lb://NOTIFICATION-SERVICE
+          predicates:
+            - Path=/notifications, /notifications/**, /notification-service/v3/api-docs
       globalcors:
         corsConfigurations:
           '[/**]':
@@ -51,6 +55,9 @@ springdoc:
       - url: /authentication-service/v3/api-docs
         name: Authentication Service
         primaryName: Authentication Service
+      - url: /notification-service/v3/api-docs
+        name: notification Service
+        primaryName: notification Service
 
 eureka:
   instance:
