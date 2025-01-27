@@ -9,6 +9,7 @@ import ng.samuel.notdemo.ebankingms.authenticationservice.repository.UserReposit
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -24,6 +25,7 @@ import java.util.UUID;
 @EnableAsync
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @SpringBootApplication
+@EnableDiscoveryClient
 public class AuthenticationServiceApplication {
 
     public static void main(String[] args) {
@@ -63,7 +65,8 @@ public class AuthenticationServiceApplication {
                     superAdmin.setUsername("ADMINISTRATOR");
                     superAdmin.setEmail("administrator@mounanga.com");
                     superAdmin.setPasswordNeedToBeModified(Boolean.TRUE);
-                    String defaultPassword = UUID.randomUUID().toString();
+                    //String defaultPassword = UUID.randomUUID().toString();
+                    String defaultPassword = "samuel";
                     superAdmin.setPassword(passwordEncoder.encode(defaultPassword));
                     superAdmin.setEnabled(true);
                     User savedUser = userRepository.save(superAdmin);

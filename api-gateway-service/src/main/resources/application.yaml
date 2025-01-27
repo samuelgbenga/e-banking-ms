@@ -15,7 +15,7 @@ spring:
         - id: authentication-service
           uri: lb://AUTHENTICATION-SERVICE
           predicates:
-            - Path=/authentication, /roles, /roles/**, /passwords, /passwords/**, /users, /users/**, /authentication-service/v3/api-docs
+            - Path=/authentication, /authentication/**, /roles, /roles/**, /passwords, /passwords/**, /users, /users/**, /authentication-service/v3/api-docs
       globalcors:
         corsConfigurations:
           '[/**]':
