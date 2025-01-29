@@ -35,6 +35,7 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+
     </dependencies>
   </dependencyManagement>
   <dependencies>
@@ -53,5 +54,6 @@
     <module>customer-service</module>
     <module>authentication-service</module>
     <module>notification-service</module>
+    <module>account-service</module>
   </modules>
 </project>

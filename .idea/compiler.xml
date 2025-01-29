@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="authentication-service" />
+        <module name="account-service" />
         <module name="api-gateway-service" />
         <module name="customer-service" />
         <module name="discovery-service" />
@@ -17,6 +18,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="account-service" options="-parameters" />
       <module name="api-gateway-service" options="-parameters" />
       <module name="authentication-service" options="-parameters" />
       <module name="customer-service" options="-parameters" />

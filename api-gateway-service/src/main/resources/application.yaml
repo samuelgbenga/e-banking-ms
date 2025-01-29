@@ -20,6 +20,10 @@ spring:
           uri: lb://NOTIFICATION-SERVICE
           predicates:
             - Path=/notifications, /notifications/**, /notification-service/v3/api-docs
+        - id: account-service
+          uri: lb://ACCOUNT-SERVICE
+          predicates:
+            - Path=/accounts/**, /accounts/commands/**, /accounts/commands/delete/**, /accounts/queries/** , /account-service/v3/api-docs
       globalcors:
         corsConfigurations:
           '[/**]':
@@ -58,6 +62,9 @@ springdoc:
       - url: /notification-service/v3/api-docs
         name: notification Service
         primaryName: notification Service
+      - url: /account-service/v3/api-docs
+        name: account Service
+        primaryName: account Service
 
 eureka:
   instance:
