@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "CUSTOMER-SERVICE")
 public interface CustomerRestClient {
 
-    @PostMapping("/customer/create")
+    @PostMapping("/customers/create")
     boolean createCustomer(@RequestBody CustomerDto request);
 }

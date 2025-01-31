@@ -1,0 +1,15 @@
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBRE1JTklTVFJBVE9SIiwicm9sZXMiOlsiVVNFUiIsIkFETUlOIiwiU1VQRVJfQURNSU4iXSwiZnVsbE5hbWUiOiJBZG1pbmlzdHJhdG9yJ3MgRmlyc3QgTmFtZSBBZG1pbmlzdHJhdG9yJ3MgTGFzdCBOYW1lIiwiaWQiOiJkYTMyNTZlNS0wYjI5LTRhZTctYjNjMi1mMmIxNzE0MWE4YmMiLCJleHAiOjE3Mzg5NDA0MDF9.YWfcvwHGJuKmX7gz0JQLpLAk2s4Sc-Ry62DMBeqsrpw
+
+
+{
+  "firstname": "Samuel",
+  "lastname": "Joseph",
+  "placeOfBirth": "Lagos",
+  "dateOfBirth": "2000-01-31",
+  "nationality": "Nigeria",
+  "gender": "MALE",
+  "cin": "string1",
+  "email": "samuel.joseph@decagon",
+  "username": "samuel1",
+  "password": "Samjeo12$"
+}
