@@ -37,7 +37,7 @@ public class Mapper {
      * @return a {@link Customer} entity with the values from the DTO.
      * @throws NullPointerException if the input {@code dto} is null.
      */
-    public static @NotNull Customer fromCustomer(final @NotNull CustomerRequestDTO dto){
+    public static @NotNull Customer fromCustomerDto(final @NotNull CustomerRequestDTO dto){
         final Customer customer = new Customer();
         customer.setFirstname(dto.getFirstname());
         customer.setLastname(dto.getLastname());
@@ -57,7 +57,7 @@ public class Mapper {
      * @return a {@link CustomerResponseDTO} object with values from the customer entity.
      * @throws NullPointerException if the input {@code customer} is null.
      */
-    public static CustomerResponseDTO fromCustomer(final @NotNull Customer customer){
+    public static CustomerResponseDTO fromCustomerDto(final @NotNull Customer customer){
         return CustomerResponseDTO.builder()
                 .id(customer.getId())
                 .firstname(customer.getFirstname())
@@ -83,7 +83,7 @@ public class Mapper {
      * @throws NullPointerException if the input {@code customers} list is null.
      */
     public static List<CustomerResponseDTO> fromListOfCustomers(final @NotNull List<Customer> customers){
-        return customers.stream().map(Mapper::fromCustomer).toList();
+        return customers.stream().map(Mapper::fromCustomerDto).toList();
     }
 
     /**

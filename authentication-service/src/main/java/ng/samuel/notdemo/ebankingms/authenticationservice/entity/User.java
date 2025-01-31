@@ -55,7 +55,7 @@ public class User {
     private String email;
 
     @Column(nullable = false, unique = true)
-    private String username;
+    private String username; // not present in the customers service
 
     @Column(nullable = false)
     private String password;

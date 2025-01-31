@@ -31,11 +31,13 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CustomerService customerService;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, CustomerService customerService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.customerService = customerService;
     }
 
     @Transactional
@@ -43,6 +45,11 @@ public class UserServiceImpl implements UserService {
     public UserResponseDTO createUser(UserRequestDTO dto) {
         log.info("In createUser()");
         validationBeforeCreate(dto.getCin(), dto.getEmail(), dto.getUsername());
+        if(!customerService.createCustomer(dto)) {
+            log.info("Failed to create Customer");
+            return new UserResponseDTO();
+        }
+        log.info("Customer Has been created! ");
         User user = Mappers.fromUserRequestDTO(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         User savedUser = userRepository.save(user);

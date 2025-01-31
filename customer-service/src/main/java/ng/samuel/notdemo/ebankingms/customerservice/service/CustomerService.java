@@ -11,7 +11,7 @@ public interface CustomerService {
     CustomerResponseDTO getCustomerByCin(String cin);
     CustomerPageResponseDTO getAllCustomers(int page, int size);
     CustomerPageResponseDTO searchCustomers(String keyword, int page, int size);
-    CustomerResponseDTO createCustomer(CustomerRequestDTO dto);
+    boolean createCustomer(CustomerRequestDTO dto);
     CustomerResponseDTO updateCustomer(String id, CustomerRequestDTO dto);
     void deleteCustomerById(String id);
 }

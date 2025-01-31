@@ -41,7 +41,7 @@ public class CustomerRestController {
 
 
     @PostMapping("/create")
-    public CustomerResponseDTO createCustomer(@RequestBody CustomerRequestDTO dto){
+    public boolean createCustomer(@RequestBody CustomerRequestDTO dto){
         return customerService.createCustomer(dto);
     }
 

@@ -36,7 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
         log.info("In getCustomerById()");
         Customer customer = findCustomerById(id);
         log.info("Customer with id '{}' found",id);
-        return Mapper.fromCustomer(customer);
+        return Mapper.fromCustomerDto(customer);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerRepository.findByCin(cin)
                 .orElseThrow(() -> new CustomerNotFoundException(String.format("Customer with cin '%s' not found", cin)));
         log.info("Customer with cin '{}' found",cin);
-        return Mapper.fromCustomer(customer);
+        return Mapper.fromCustomerDto(customer);
     }
 
     @Override
@@ -68,13 +68,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Transactional
     @Override
-    public CustomerResponseDTO createCustomer(@NotNull CustomerRequestDTO dto) {
+    public boolean createCustomer(@NotNull CustomerRequestDTO dto) {
         log.info("In createCustomer()");
         validationBeforeCreateCustomer(dto.getEmail(), dto.getCin());
-        Customer customer = Mapper.fromCustomer(dto);
+        Customer customer = Mapper.fromCustomerDto(dto);
         Customer savedCustomer = customerRepository.save(customer);
         log.info("Customer created with id {}",savedCustomer.getId());
-        return Mapper.fromCustomer(savedCustomer);
+        return customerRepository.existsById(savedCustomer.getId());
     }
 
 
@@ -87,7 +87,7 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customerToUpdate = Mapper.updateCustomerItems(customer, dto);
         Customer customerUpdated = customerRepository.save(customerToUpdate);
         log.info("Customer with id {} updated", customerUpdated.getId());
-        return Mapper.fromCustomer(customerUpdated);
+        return Mapper.fromCustomerDto(customerUpdated);
     }
 
     @Transactional

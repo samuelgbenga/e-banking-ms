@@ -39,6 +39,20 @@ public class Mappers {
         return dto;
     }
 
+    // convert to customer dto
+    public static CustomerDto fromUserRequestDto( UserRequestDTO user) {
+        final CustomerDto dto = new CustomerDto();
+        dto.setFirstname(user.getFirstname());
+        dto.setLastname(user.getLastname());
+        dto.setPlaceOfBirth(user.getPlaceOfBirth());
+        dto.setDateOfBirth(user.getDateOfBirth());
+        dto.setNationality(user.getNationality());
+        dto.setGender(user.getGender());
+        dto.setCin(user.getCin());
+        dto.setEmail(user.getEmail());
+        return dto;
+    }
+
     public static List<UserResponseDTO> fromListOfUsers(final List<User> users) {
         if (users == null || users.isEmpty()) {
             return List.of();
