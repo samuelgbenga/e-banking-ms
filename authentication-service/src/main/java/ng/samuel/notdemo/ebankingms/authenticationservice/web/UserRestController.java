@@ -3,7 +3,6 @@ package ng.samuel.notdemo.ebankingms.authenticationservice.web;
 import ng.samuel.notdemo.ebankingms.authenticationservice.dto.*;
 import ng.samuel.notdemo.ebankingms.authenticationservice.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
