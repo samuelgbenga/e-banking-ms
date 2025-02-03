@@ -2,6 +2,7 @@ package ng.samuel.notdemo.ebankingms.customerservice.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,8 +24,13 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable())) // will remove you before deploying to production
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/intern/**", "/customers/create","/customer-service/v3/api-docs", "/actuator/**").permitAll()
+                        .requestMatchers("/intern/verify/**",
+                                "/customers/create",
+                                "/customer-service/v3/api-docs",
+                                "/actuator/**",
+                                "/h2-console/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);

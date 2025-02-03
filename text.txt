@@ -13,3 +13,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBRE1JTklTVFJBVE9SIiwicm9sZXMiOls
   "username": "samuel1",
   "password": "Samjeo12$"
 }
+
+// back-logs
+-Notification email for registration of customer
+-Not notification

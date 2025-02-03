@@ -1,6 +1,7 @@
 package ng.samuel.notdemo.ebankingms.customerservice.service;
 
 
+import ng.samuel.notdemo.ebankingms.customerservice.dto.CustomerExistResponseDTO;
 import ng.samuel.notdemo.ebankingms.customerservice.dto.CustomerPageResponseDTO;
 import ng.samuel.notdemo.ebankingms.customerservice.dto.CustomerRequestDTO;
 import ng.samuel.notdemo.ebankingms.customerservice.dto.CustomerResponseDTO;
@@ -14,4 +15,5 @@ public interface CustomerService {
     boolean createCustomer(CustomerRequestDTO dto);
     CustomerResponseDTO updateCustomer(String id, CustomerRequestDTO dto);
     void deleteCustomerById(String id);
+    CustomerExistResponseDTO customerExist(String id);
 }

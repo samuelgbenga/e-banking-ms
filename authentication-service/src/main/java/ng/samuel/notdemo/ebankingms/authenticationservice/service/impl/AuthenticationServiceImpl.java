@@ -63,8 +63,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
     }
 
-
-
     private void updateUserLastLoginDate(@NotNull User user) {
         user.setLastLogin(LocalDateTime.now());
         User updatedUser = userRepository.save(user);

@@ -1,6 +1,7 @@
 package ng.samuel.notdemo.ebankingms.customerservice.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import ng.samuel.notdemo.ebankingms.customerservice.dto.CustomerExistResponseDTO;
 import ng.samuel.notdemo.ebankingms.customerservice.dto.CustomerPageResponseDTO;
 import ng.samuel.notdemo.ebankingms.customerservice.dto.CustomerRequestDTO;
 import ng.samuel.notdemo.ebankingms.customerservice.dto.CustomerResponseDTO;
@@ -96,6 +97,15 @@ public class CustomerServiceImpl implements CustomerService {
         log.info("In deleteCustomerById()");
         customerRepository.deleteById(id);
         log.info("Customer with id '{}' deleted",id);
+    }
+
+    @Override
+    public CustomerExistResponseDTO customerExist(String id) {
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow( () -> new CustomerNotFoundException(String.format("Customer with id %s not found", id)));
+        log.info("Customer with {} id exist.", id);
+        return new CustomerExistResponseDTO( customer.getId(), customer.getEmail());
+
     }
 
     private Customer findCustomerById(String id) {
