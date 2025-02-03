@@ -3,6 +3,7 @@ package ng.samuel.notdemo.ebankingms.authenticationservice.web;
 import ng.samuel.notdemo.ebankingms.authenticationservice.dto.*;
 import ng.samuel.notdemo.ebankingms.authenticationservice.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -91,14 +92,17 @@ public class UserRestController {
 
     @GetMapping
     public String getUser() {
-        return "Samuel Gbenga";
+        return "samuel";
     }
 
     private String getCurrentUsername() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails userDetails) {
+
             return userDetails.getUsername();
         }
         return principal.toString();
     }
+
+
 }

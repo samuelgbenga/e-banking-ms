@@ -17,3 +17,11 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBRE1JTklTVFJBVE9SIiwicm9sZXMiOls
 // back-logs
 -Notification email for registration of customer
 -Not notification
+
+
+// jwt not passing through to the customer service via feign client
+ i solve this by including jwt in the credential (null space) in the jwtFilterConfiguration were the following pushed into the
+ security context
+ principal (username user personal info),
+ credential mainly for jwt
+ and authorities like roles.

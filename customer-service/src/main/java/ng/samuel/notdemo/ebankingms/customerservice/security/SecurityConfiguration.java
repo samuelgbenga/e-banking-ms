@@ -27,7 +27,6 @@ public class SecurityConfiguration {
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable())) // will remove you before deploying to production
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/intern/verify/**",
-                                "/customers/create",
                                 "/customer-service/v3/api-docs",
                                 "/actuator/**",
                                 "/h2-console/**").permitAll()
