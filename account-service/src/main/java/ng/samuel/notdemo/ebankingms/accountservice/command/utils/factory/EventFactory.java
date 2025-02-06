@@ -97,7 +97,8 @@ public class EventFactory {
         return new AccountDeletedEvent(
                 command.getId(),
                 command.getCommandDate(),
-                command.getCommandBy()
+                command.getCommandBy(),
+                command.getStatus()
         );
     }
 

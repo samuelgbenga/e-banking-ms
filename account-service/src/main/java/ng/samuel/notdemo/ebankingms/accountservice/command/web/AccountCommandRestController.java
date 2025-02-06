@@ -2,6 +2,7 @@ package ng.samuel.notdemo.ebankingms.accountservice.command.web;
 
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import ng.samuel.notdemo.ebankingms.accountservice.command.commands.*;
 import ng.samuel.notdemo.ebankingms.accountservice.command.dto.*;
 import ng.samuel.notdemo.ebankingms.accountservice.command.exception.CustomerNotFoundException;
@@ -13,6 +14,8 @@ import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ng.samuel.notdemo.ebankingms.accountservice.common.enums.*;
 
@@ -21,6 +24,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+
+@Slf4j
 @RestController
 @RequestMapping("/accounts/commands")
 public class AccountCommandRestController {
@@ -40,12 +45,24 @@ public class AccountCommandRestController {
 
     @PostMapping("/create")
     public CompletableFuture<String> create(@RequestBody @Valid AccountRequestDTO dto) {
+
+
+        // Capture authentication before processing the event
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         CustomerExistResponseDTO customer = checkCustomerExist(dto.customerId());
         if(customer == null){
             throw new CustomerNotFoundException(String.format("Customer with id %s not found", dto.customerId()));
         }
         CreateAccountCommand command = createCommand(customer.id(), customer.email(), dto.currency());
-        return commandGateway.send(command);
+
+        CompletableFuture<String> result = commandGateway.send(command);
+
+        // Restore authentication after event processing
+        log.info("this is the report: {}", result);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return result;
     }
 
     @PutMapping("/update")

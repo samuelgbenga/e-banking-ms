@@ -69,7 +69,7 @@ public class CommandFactory {
     @NotNull
     @Contract("_, _ -> new")
     public static DeleteAccountCommand createDeleteAccountCommand(@NotNull final String accountId, final String username){
-        return new DeleteAccountCommand(accountId,LocalDateTime.now(), username);
+        return new DeleteAccountCommand(accountId,LocalDateTime.now(), username, AccountStatus.DELETED);
     }
 
 

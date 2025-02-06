@@ -25,6 +25,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(
                                 "/v2/api-docs",
@@ -36,6 +37,7 @@ public class SecurityConfiguration {
                                 "/configuration/security",
                                 "/swagger-ui/**",
                                 "/webjars/**",
+                                "/h2-console/**",
                                 "/account-service/v3/api-docs",
                                 "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated())

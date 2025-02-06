@@ -14,6 +14,19 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBRE1JTklTVFJBVE9SIiwicm9sZXMiOls
   "password": "Samjeo12$"
 }
 
+{
+  "firstname": "Gbenga",
+  "lastname": "Joseph",
+  "placeOfBirth": "Lagos",
+  "dateOfBirth": "2000-01-31",
+  "nationality": "Nigeria",
+  "gender": "MALE",
+  "cin": "string2",
+  "email": "samuel.joseph@decagon.dev",
+  "username": "samuel2",
+  "password": "Samjeo12$"
+}
+
 // back-logs
 -Notification email for registration of customer
 -Not notification
@@ -25,3 +38,4 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBRE1JTklTVFJBVE9SIiwicm9sZXMiOls
  principal (username user personal info),
  credential mainly for jwt
  and authorities like roles.
+

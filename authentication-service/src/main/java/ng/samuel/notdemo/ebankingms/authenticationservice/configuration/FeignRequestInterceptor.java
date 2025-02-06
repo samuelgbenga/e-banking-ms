@@ -20,7 +20,7 @@ public class FeignRequestInterceptor implements RequestInterceptor {
         if (authentication != null && authentication.getCredentials() instanceof String) {
             String token = (String) authentication.getCredentials();
             // Add Authorization header with the Bearer token to every request
-            log.info("this is the token: {}", token);
+           // log.info("this is the token: {}", token);
             requestTemplate.header("Authorization", "Bearer " + token);
         } else {
             // Optional: Log a warning if the token is not available

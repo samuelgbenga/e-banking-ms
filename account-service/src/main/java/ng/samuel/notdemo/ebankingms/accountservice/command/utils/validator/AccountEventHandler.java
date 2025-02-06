@@ -6,11 +6,13 @@ import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Component
 @ProcessingGroup("accountEmailCustomerId")
 public class AccountEventHandler {
+
 
     @EventHandler
     public void on(@NotNull AccountCreatedEvent event, @NotNull AccountEmailCustomerIdRepository repository){
@@ -19,6 +21,7 @@ public class AccountEventHandler {
         );
         repository.save(emailCustomerId);
     }
+
 
     @EventHandler
     public void on(@NotNull AccountDeletedEvent event, @NotNull AccountEmailCustomerIdRepository  repository){

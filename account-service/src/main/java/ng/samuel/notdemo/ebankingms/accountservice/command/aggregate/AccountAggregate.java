@@ -18,6 +18,8 @@ import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 import ng.samuel.notdemo.ebankingms.accountservice.common.enums.*;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -46,7 +48,7 @@ public class AccountAggregate {
     // create account command
     @CommandHandler
     public AccountAggregate(CreateAccountCommand command) {
-        log.info("CreateAccountCommand handled");
+
         AccountCreatedEvent event = EventFactory.create(command);
         AggregateLifecycle.apply(event);
     }
@@ -56,6 +58,10 @@ public class AccountAggregate {
     @EventSourcingHandler
     public void on(@NotNull AccountCreatedEvent event) {
         log.info("AccountCreatedEvent handled");
+
+        // Capture authentication before processing the event
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         this.accountId = event.getId();
         this.status = event.getStatus();
         this.balance = event.getBalance();
@@ -65,6 +71,10 @@ public class AccountAggregate {
         this.createdBy = event.getEventBy();
         this.createdDate = event.getEventDate();
         AccountActivatedEvent accountActivatedEvent = EventFactory.create(this.accountId, this.createdDate, this.createdBy, AccountStatus.ACTIVATED);
+
+        // Restore authentication after event processing
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
         AggregateLifecycle.apply(accountActivatedEvent);
     }
 
@@ -79,11 +89,18 @@ public class AccountAggregate {
     // activate account event
     @EventSourcingHandler
     public void on(@NotNull AccountActivatedEvent event) {
+
+        // Capture authentication before processing the event
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         log.info("AccountActivatedEvent handled");
         this.accountId = event.getId();
         this.lastModifiedBy = event.getEventBy();
         this.lastModifiedDate = event.getEventDate();
         this.status = event.getStatus();
+
+        // Restore authentication after event processing
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     // suspend account command
@@ -163,17 +180,28 @@ public class AccountAggregate {
         }
         AccountDeletedEvent event = EventFactory.create(command);
         AggregateLifecycle.apply(event);
+
+
     }
 
     // delete account event
     @EventSourcingHandler
     public void on(@NotNull AccountDeletedEvent event) {
+
+        // Capture authentication before processing the event
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         log.info("AccountDeletedEvent handled");
+        log.info("AccountDeletedEvent delete {}", authentication.toString());
+
         this.accountId = event.getId();
         this.lastModifiedBy = event.getEventBy();
         this.lastModifiedDate = event.getEventDate();
-        this.status = AccountStatus.DELETED;
+        this.status = event.getStatus();
         this.email = null;
         this.customerId = null;
+
+        // Restore authentication after event processing
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }
