@@ -45,5 +45,8 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBRE1JTklTVFJBVE9SIiwicm9sZXMiOls
  in situation where a user is not authenticated or unauthorized.
 
 
+ // i need to setup the gateway and the notification feign endpoint
+
+
 
 
