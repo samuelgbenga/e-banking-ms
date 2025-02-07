@@ -58,10 +58,6 @@ public class AccountAggregate {
     @EventSourcingHandler
     public void on(@NotNull AccountCreatedEvent event) {
         log.info("AccountCreatedEvent handled");
-
-        // Capture authentication before processing the event
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         this.accountId = event.getId();
         this.status = event.getStatus();
         this.balance = event.getBalance();
@@ -71,9 +67,6 @@ public class AccountAggregate {
         this.createdBy = event.getEventBy();
         this.createdDate = event.getEventDate();
         AccountActivatedEvent accountActivatedEvent = EventFactory.create(this.accountId, this.createdDate, this.createdBy, AccountStatus.ACTIVATED);
-
-        // Restore authentication after event processing
-        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         AggregateLifecycle.apply(accountActivatedEvent);
     }
@@ -89,18 +82,12 @@ public class AccountAggregate {
     // activate account event
     @EventSourcingHandler
     public void on(@NotNull AccountActivatedEvent event) {
-
-        // Capture authentication before processing the event
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         log.info("AccountActivatedEvent handled");
         this.accountId = event.getId();
         this.lastModifiedBy = event.getEventBy();
         this.lastModifiedDate = event.getEventDate();
         this.status = event.getStatus();
 
-        // Restore authentication after event processing
-        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     // suspend account command
@@ -187,13 +174,7 @@ public class AccountAggregate {
     // delete account event
     @EventSourcingHandler
     public void on(@NotNull AccountDeletedEvent event) {
-
-        // Capture authentication before processing the event
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         log.info("AccountDeletedEvent handled");
-        log.info("AccountDeletedEvent delete {}", authentication.toString());
-
         this.accountId = event.getId();
         this.lastModifiedBy = event.getEventBy();
         this.lastModifiedDate = event.getEventDate();
@@ -201,7 +182,5 @@ public class AccountAggregate {
         this.email = null;
         this.customerId = null;
 
-        // Restore authentication after event processing
-        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

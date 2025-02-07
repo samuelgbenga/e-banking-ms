@@ -39,3 +39,11 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBRE1JTklTVFJBVE9SIiwicm9sZXMiOls
  credential mainly for jwt
  and authorities like roles.
 
+ // so i was facing pre-authentication 403 forbidden error even though
+ the jwt passed was correct and the task was completed the pre-authentication process was triggered
+ by another thread which set the security context to anonymous which is a default for spring security version 3.x.x
+ in situation where a user is not authenticated or unauthorized.
+
+
+
+

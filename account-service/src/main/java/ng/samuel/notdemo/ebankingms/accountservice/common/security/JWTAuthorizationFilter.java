@@ -9,6 +9,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import ng.samuel.notdemo.ebankingms.accountservice.common.properties.ApplicationProperties;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +26,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
+@Slf4j
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     private static final String BEARER = "Bearer ";
@@ -71,13 +73,21 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     }
 
     private DecodedJWT validateToken(String token) throws JWTVerificationException {
-        Algorithm algorithm = Algorithm.HMAC256(properties.getJwtSecret());
-        JWTVerifier verifier = JWT.require(algorithm).build();
-        return verifier.verify(token);
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(properties.getJwtSecret());
+            JWTVerifier verifier = JWT.require(algorithm).build();
+            DecodedJWT jwt = verifier.verify(token);
+            log.info("Token validated successfully. Subject: {}", jwt.getSubject());
+            return jwt;
+        } catch (JWTVerificationException ex) {
+            log.error("JWT verification failed: {}", ex.getMessage());
+            throw ex;
+        }
     }
 
     private boolean isTokenExpired(@NotNull DecodedJWT jwt) {
         Date expiration = jwt.getExpiresAt();
+        log.info("Token Expiration Time: {}, Current Time: {}", expiration, new Date());
         return expiration.before(new Date());
     }
 
@@ -94,6 +104,11 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
             );
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            log.info("User '{}' authenticated with roles: {}", username, roles);
+            log.info("SecurityContext: {}", SecurityContextHolder.getContext().getAuthentication());
+        } else {
+            log.warn("JWT did not contain username or roles, authentication not set.");
         }
     }
 }

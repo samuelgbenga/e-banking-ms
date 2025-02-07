@@ -1,4 +1,4 @@
-package ng.samuel.notdemo.ebankingms.accountservice.command.configuration;
+package ng.samuel.notdemo.ebankingms.accountservice.common.configurations;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.models.Components;

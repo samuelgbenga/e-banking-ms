@@ -14,8 +14,11 @@ import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextHolderStrategy;
 import org.springframework.web.bind.annotation.*;
 import ng.samuel.notdemo.ebankingms.accountservice.common.enums.*;
 
@@ -35,20 +38,18 @@ public class AccountCommandRestController {
     private final CustomerRestClient customerRestClient;
     private final IdGenerator idGenerator;
     private final SecurityInformation securityInformation;
+    private final SecurityContextHolderStrategy securityContextHolderStrategy;
 
     public AccountCommandRestController(CommandGateway commandGateway, CustomerRestClient customerRestClient, IdGenerator idGenerator, SecurityInformation securityInformation) {
         this.commandGateway = commandGateway;
         this.customerRestClient = customerRestClient;
         this.idGenerator = idGenerator;
         this.securityInformation = securityInformation;
+        this.securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
     }
 
     @PostMapping("/create")
-    public CompletableFuture<String> create(@RequestBody @Valid AccountRequestDTO dto) {
-
-
-        // Capture authentication before processing the event
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public ResponseEntity<String> create(@RequestBody @Valid AccountRequestDTO dto) {
 
         CustomerExistResponseDTO customer = checkCustomerExist(dto.customerId());
         if(customer == null){
@@ -58,36 +59,69 @@ public class AccountCommandRestController {
 
         CompletableFuture<String> result = commandGateway.send(command);
 
-        // Restore authentication after event processing
-        log.info("this is the report: {}", result);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return ResponseEntity.ok(result.join());
 
-        return result;
     }
 
+//    @PostMapping("/create")
+//    public CompletableFuture<Object> create(@RequestBody @Valid AccountRequestDTO dto) {
+//
+//
+//        CustomerExistResponseDTO customer = checkCustomerExist(dto.customerId());
+//        if(customer == null){
+//            throw new CustomerNotFoundException(String.format("Customer with id %s not found", dto.customerId()));
+//        }
+//        CreateAccountCommand command = createCommand(customer.id(), customer.email(), dto.currency());
+//
+//        // Capture authentication before processing the event
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//
+//        // Use Spring Security context-aware callable
+//        Object result =  CompletableFuture.supplyAsync(() -> {
+//            try {
+//                // Restore authentication inside the async execution
+//                SecurityContext context = SecurityContextHolder.createEmptyContext();
+//                context.setAuthentication(authentication);
+//                SecurityContextHolder.setContext(context);
+//
+//                // Send command and get result
+//                return commandGateway.send(command).join();
+//            } finally {
+//                // Clear security context to prevent memory leaks
+//                SecurityContextHolder.clearContext();
+//            }
+//        });
+//
+//        return (CompletableFuture<Object>) result;
+//    }
+
     @PutMapping("/update")
-    public CompletableFuture<String> update(@RequestBody @Valid UpdateStatusRequestDTO dto) {
+    public ResponseEntity<String> update(@RequestBody @Valid UpdateStatusRequestDTO dto) {
         if(dto.status().equals(AccountStatus.ACTIVATED) || dto.status().equals(AccountStatus.CREATED)){
             ActivateAccountCommand command = CommandFactory.createActivateAccountCommand(dto, securityInformation.getUsername());
-            return commandGateway.send(command);
+            CompletableFuture<String> result =  commandGateway.send(command);
+           return ResponseEntity.ok(result.join());
         } else if (dto.status().equals(AccountStatus.SUSPENDED)) {
             SuspendAccountCommand command = CommandFactory.createSuspendAccountCommand(dto, securityInformation.getUsername());
-            return commandGateway.send(command);
+            CompletableFuture<String> result =  commandGateway.send(command);
+            return ResponseEntity.ok(result.join());
         }else{
             throw new IllegalArgumentException("Unsupported status " + dto.status());
         }
     }
 
     @PostMapping("/credit")
-    public CompletableFuture<String> credit(@RequestBody @Valid OperationRequestDTO dto) {
+    public ResponseEntity<String> credit(@RequestBody @Valid OperationRequestDTO dto) {
         CreditAccountCommand command = CommandFactory.createCreditAccountCommand(dto, securityInformation.getUsername());
-        return commandGateway.send(command);
+        CompletableFuture<String> result = commandGateway.send(command);
+        return ResponseEntity.ok(result.join());
     }
 
     @PostMapping("/debit")
-    public CompletableFuture<String> debit(@RequestBody @Valid OperationRequestDTO dto) {
+    public ResponseEntity<String> debit(@RequestBody @Valid OperationRequestDTO dto) {
         DebitAccountCommand command = CommandFactory.createDebitAccountCommand(dto, securityInformation.getUsername());
-        return commandGateway.send(command);
+        CompletableFuture<String> result =  commandGateway.send(command);
+        return ResponseEntity.ok(result.join());
     }
 
     @PostMapping("/transfer")
@@ -97,9 +131,10 @@ public class AccountCommandRestController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public CompletableFuture<String> delete(@PathVariable String id) {
+    public ResponseEntity<String> delete(@PathVariable String id) {
         DeleteAccountCommand command = CommandFactory.createDeleteAccountCommand(id, securityInformation.getUsername());
-        return commandGateway.send(command);
+        CompletableFuture<String> result = commandGateway.send(command);
+        return ResponseEntity.ok(result.join());
     }
 
 
@@ -120,10 +155,10 @@ public class AccountCommandRestController {
         );
     }
 
-
     @GetMapping
     public String get() {
        return "samuel the man";
     }
+
 
 }
