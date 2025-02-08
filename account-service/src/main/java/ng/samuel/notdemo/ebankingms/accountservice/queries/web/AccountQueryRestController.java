@@ -55,7 +55,7 @@ public class AccountQueryRestController {
         if(response == null) {
             throw new OperationNotFoundException(String.format("Operation with id %s not found", id));
         }
-        return null;
+        return response;
     }
 
     @GetMapping("/all-operations")

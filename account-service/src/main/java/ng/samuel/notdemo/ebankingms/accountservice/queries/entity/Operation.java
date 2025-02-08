@@ -26,6 +26,7 @@ public class Operation {
     @Column(nullable = false, updatable = false)
     private BigDecimal amount;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, updatable = false)
     private OperationType type;
 
